@@ -24,7 +24,9 @@
 		{% for patient in patients %}
 			<tr>
 				<th scope="row">{{ patient.id }}</th>
-				<td>{{ patient.lastName | upper }}</td>
+				<td>
+					<a href="{{ path('admin_patient_show', {'id': patient.id}) }}">{{ patient.lastName | upper }}</a>
+				</td>
 				<td>{{ patient.firstName }}</td>
 				<td class="text-center">{{ patient.birthDate | date("d/m/Y") }}</td>
 				<td>{{ patient.phone }}</td>
@@ -36,10 +38,16 @@
 				<td>Dr
 					{{ patient.doctor.lastName }}
 					{{ patient.doctor.firstName }}</td>
-				<td>{{ dump(patient.nurses) }}</td>
+				<td>
+					{% for nurse in patient.nurses %}
+						<p>{{ nurse.lastName}}
+							{{ nurse.firstName}}</p>
+					{% endfor %}
+				</td>
+
 				<td class="text-center">
 					<button class="btn btn-info">
-						<a href="#">
+						<a href="{{ path("admin_patient_edit", {'id' : patient.id}) }}">
 							<i class="far fa-edit text-light"></i>
 						</a>
 					</button>
