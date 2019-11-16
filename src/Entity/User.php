@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -95,12 +96,33 @@ class User implements UserInterface
      */
     private $careGiver;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="users")
+     */
+    private $job;
+
 
     public function __construct()
     {
         $this->patients = new ArrayCollection();
         $this->nurses = new ArrayCollection();
         $this->careGiver = new ArrayCollection();
+    }
+
+    /**
+     * Permet d'initialiser le slug
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify;
+            $this->slug = $slugify->Slugify($this->lastName . $this->firstName);
+        }
     }
 
     public function getId(): ?int
@@ -356,6 +378,18 @@ class User implements UserInterface
             $this->careGiver->removeElement($careGiver);
             $careGiver->removeNurse($this);
         }
+
+        return $this;
+    }
+
+    public function getJob(): ?Job
+    {
+        return $this->job;
+    }
+
+    public function setJob(?Job $job): self
+    {
+        $this->job = $job;
 
         return $this;
     }
