@@ -48,13 +48,8 @@
 			</div>
 			<div class="col form-group">
 				{{ form_row(form.doctor) }}
-				{# {{ form_row(form.nurses) }} #}
-				<label for="nurses">Infirmier(e)s</label>
-				<select class="js-example-basic-multiple form-control" name="nurses[]" multiple="">
-					{% for nurse in patient.nurses %}
-						<option value="AL">{{nurse.lastName}}</option>
-					{% endfor %}
-				</select>
+				{{ form_row(form.nurses) }}
+
 			</div>
 		</div>
 		<div class="text-right">
@@ -70,7 +65,7 @@
 
 	<script>
 		$(document).ready(function () {
-$('.js-example-basic-multiple').select2();
+$('select').select2();
 });
 	</script>
 

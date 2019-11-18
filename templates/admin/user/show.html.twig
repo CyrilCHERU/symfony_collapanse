@@ -7,7 +7,7 @@
 {% block body %}
 	<div class="m-4">
 		<div class="row m-4">
-			<h1>Voici les informations du patient stockées en BDD</h1>
+			<h1>Voici les informations de l'utilisateur stockées en BDD</h1>
 		</div>
 		<div class="row">
 			<div class="col-6">
@@ -21,15 +21,15 @@
 					<div class="col">
 						<div class="row">
 							<div class="col-7">
-								<img class="rounded-circle" src="http://avatars.io/twitter/{{ patient.firstName }}/medium" alt="avatar">
+								<img class="rounded-circle" src="https://avatars.io/twitter/{{ user.firstName }}/medium" alt="avatar">
 							</div>
 							<div class="col-5">
 								<p>Sexe :
-									{{ patient.gender }}</p>
+									{{ user.gender }}</p>
 								<p>Nom :
-									{{ patient.lastName }}</p>
+									{{ user.lastName }}</p>
 								<p>Prénom :
-									{{ patient.firstName }}</p>
+									{{ user.firstName }}</p>
 							</div>
 						</div>
 
@@ -49,10 +49,10 @@
 							<p>Ville :</p>
 						</div>
 						<div class="col-4">
-							<p>{{ patient.address1 }}</p>
-							<p>{{ patient.address2 }}</p>
-							<p>{{ patient.zipCode }}</p>
-							<p>{{ patient.city }}</p>
+							<p>{{ user.address1 }}</p>
+							<p>{{ user.address2 }}</p>
+							<p>{{ user.zipCode }}</p>
+							<p>{{ user.city }}</p>
 						</div>
 
 					</div>
@@ -63,10 +63,10 @@
 				<div class="col">
 					<p>
 						<i class="fas fa-phone"></i>
-						{{ patient.phone }}</p>
+						{{ user.phone }}</p>
 					<p>
 						<i class="fas fa-at"></i>
-						{{ patient.email }}</p>
+						{{ user.email }}</p>
 				</div>
 			</div>
 
@@ -75,22 +75,13 @@
 					<div class="row">
 						<h2>Médécin Traitant</h2>
 					</div>
-					<div class="col">
-						Dr
-						{{ patient.doctor.lastName}}
-						{{ patient.doctor.firstName}}
-					</div>
+					<div class="col"></div>
 				</div>
 				<div class="text-center mb-4">
 					<div class="row">
 						<h2>Paramédicaux</h2>
 					</div>
-					<div class="col">
-						{% for nurse in patient.nurses %}
-							<p>{{ nurse.lastName}}
-								{{ nurse.firstName}}</p>
-						{% endfor %}
-					</div>
+					<div class="col"></div>
 				</div>
 				<div class="text-center mb-4">
 					<div class="row">
@@ -112,11 +103,11 @@
 		</div>
 		<div class="row">
 			<div class="col-8 text-right">
-				<a href="{{ path("admin_patient_index") }}" class="btn btn-info">
+				<a href="{{ path("admin_user_index") }}" class="btn btn-info">
 					<i class="fas fa-backward"></i>
 				</a>
 				<button class="btn btn-warning">
-					<a href="{{ path("admin_patient_edit", {'id' : patient.id}) }}">
+					<a href="{{ path("admin_user_edit", {'id' : user.id}) }}">
 						<i class="far fa-edit text-light"></i>
 					</a>
 				</button>

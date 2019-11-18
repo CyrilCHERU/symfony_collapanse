@@ -1,20 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Liste des utilisateurs de l'application en BDD
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/work/api-symfony/api/src/Controller/Admin/UserController.php'|file_link(0) }}">src/Controller/Admin/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/work/api-symfony/api/templates/admin/user/index.html.twig'|file_link(0) }}">templates/admin/user/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<div class="m-4">
+		<div class="row">
+			<div class="text-center">
+				<h1>Voici la liste des utilisateurs</h1>
+			</div>
+		</div>
+		<div class="row">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Photo</th>
+						<th scope="col">Nom Complet</th>
+						<th scope="col">Email</th>
+						<th scope="col">Téléphone</th>
+						<th scope="col">Addresse</th>
+						<th scope="col">Profession</th>
+						<th scope="col">Controles d'édition</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for u in users %}
+						<tr>
+							<th scope="row">{{ u.id }}</th>
+							<td>
+								<img class="rounded-circle" src="https://avatars.io/twitter/{{ u.firstName }}/small" alt="avatar">
+							</td>
+							<td>{{ u.fullName }}</td>
+							<td>{{ u.email }}</td>
+							<td>{{ u.phone }}</td>
+							<td>{{ u.address1 }}
+								{{ u.address2 }}
+								{{ u.zipCode }}
+								{{ u.city }}</td>
+							<td>{{ u.job.title }}</td>
+							<td class="text-center">
+								<button
+									class="btn btn-info">
+									{# <a href="{{ path("admin_user_edit", {'id' : u.id}) }}"> #}
+									<i class="far fa-edit text-light"></i>
+									{# </a> #}
+								</button>
+								<button class="btn btn-danger">
+									<a href="#">
+										<i class="fas fa-trash text-light"></i>
+									</a>
+								</button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 {% endblock %}

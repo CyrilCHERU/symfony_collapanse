@@ -91,12 +91,15 @@ class PatientType extends AbstractType
             ])
             ->add('doctor', EntityType::class, [
                 'class' => User::class,
-                'group_by' => "job.title",
+
                 'query_builder' => function (UserRepository $user) {
                     return $user->createQueryBuilder('u')
-                        ->orderBy('u.job', 'ASC');
+                        ->where("j.title = 'Docteur'")
+                        ->join("u.job", "j");
                 },
-                'choice_label' => 'lastName',
+                'choice_label' => function (User $user) {
+                    return $user->getFirstName() . " " . $user->getLastName();
+                },
                 'label' => "Médecin traitant",
                 'attr' => [
                     'class' => "form-control"
@@ -105,12 +108,13 @@ class PatientType extends AbstractType
             ])
             ->add('nurses', EntityType::class, [
                 'class' => User::class,
-                'group_by' => "job.title",
                 'query_builder' => function (UserRepository $user) {
                     return $user->createQueryBuilder('u')
-                        ->orderBy('u.job', 'ASC');
+                        ->where("j.title = 'Infirmier(e)'")
+                        ->join("u.job", "j");
                 },
                 'choice_label' => 'lastName',
+                'multiple' => true,
                 'label' => "Infirmier(e)s",
                 'attr' => [
                     'class' => "form-control"

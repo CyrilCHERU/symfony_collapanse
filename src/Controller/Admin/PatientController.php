@@ -81,6 +81,8 @@ class PatientController extends AbstractController
 
         $form->handleRequest($request);
 
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($patient);
             $em->flush();
