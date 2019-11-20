@@ -31,20 +31,23 @@
 							<td>
 								<img class="rounded-circle" src="https://avatars.io/twitter/{{ u.firstName }}/small" alt="avatar">
 							</td>
-							<td>{{ u.fullName }}</td>
+							<td>
+								<a href="{{ path('admin_user_show', {'id': u.id}) }}">
+									{{ u.fullName }}
+								</a>
+							</td>
 							<td>{{ u.email }}</td>
-							<td>{{ u.phone }}</td>
+							<td>{{ u.phone | splitPhone }}</td>
 							<td>{{ u.address1 }}
 								{{ u.address2 }}
 								{{ u.zipCode }}
 								{{ u.city }}</td>
 							<td>{{ u.job.title }}</td>
 							<td class="text-center">
-								<button
-									class="btn btn-info">
-									{# <a href="{{ path("admin_user_edit", {'id' : u.id}) }}"> #}
-									<i class="far fa-edit text-light"></i>
-									{# </a> #}
+								<button class="btn btn-info">
+									<a href="{{ path("admin_user_edit", {'id' : u.id}) }}">
+										<i class="far fa-edit text-light"></i>
+									</a>
 								</button>
 								<button class="btn btn-danger">
 									<a href="#">

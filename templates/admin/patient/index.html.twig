@@ -29,7 +29,7 @@
 				</td>
 				<td>{{ patient.firstName }}</td>
 				<td class="text-center">{{ patient.birthDate | date("d/m/Y") }}</td>
-				<td>{{ patient.phone }}</td>
+				<td>{{ patient.phone | splitPhone}}</td>
 				<td>{{ patient.address1 }}
 					{{ patient.address2 }}
 					{{ patient.zipCode }}

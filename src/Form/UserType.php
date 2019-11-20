@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Job;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -26,72 +28,86 @@ class UserType extends AbstractType
                 ],
                 'label' => "Sexe",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('lastName', TextType::class, [
                 'label' => "Votre nom",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label' => "Votre prénom",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => "Votre email (Vous servira d'identifiant de connexion)",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => "Les mots de passe ne correspondent pas :(",
                 'first_options' => [
-                    'label' => "Votre mot de passe"
+                    'label' => "Votre mot de passe",
+                    'attr' => [
+                        'class' => "form-control mb-2"
+                    ]
                 ],
                 'second_options' => [
-                    'label' => "Veuillez resaisir votre mot de passe"
-                ]
+                    'label' => "Veuillez resaisir votre mot de passe",
+                    'attr' => [
+                        'class' => "form-control mb-2"
+                    ]
+                ],
             ])
             ->add('phone', TextType::class, [
                 'label' => "Téléphone",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('adeli', TextType::class, [
                 'label' => "Votre N° ADELI",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('address1', TextType::class, [
                 'label' => "Adresse",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('address2', TextType::class, [
                 'label' => "Complément d'addresse",
                 'required' => false,
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('zipCode', TextType::class, [
                 'label' => "Code Postal",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('city', TextType::class, [
                 'label' => "Ville",
                 'attr' => [
-                    'class' => "from-control"
+                    'class' => "form-control mb-2"
+                ]
+            ])
+            ->add('job', EntityType::class, [
+                'class' => Job::class,
+                'label' => 'Profession',
+                'choice_label' => 'title',
+                'attr' => [
+                    'class' => "form-control mb-2"
                 ]
             ]);
     }

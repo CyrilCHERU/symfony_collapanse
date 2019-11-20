@@ -27,19 +27,19 @@ class PatientType extends AbstractType
                 ],
                 'label' => "Sexe",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('lastName', TextType::class, [
                 'label' => "Nom",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label' => "Prénom",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('birthDate', DateType::class, [
@@ -47,45 +47,45 @@ class PatientType extends AbstractType
                 'format' => "dd-MM-yyyy",
                 'years' => range(1900, 2020),
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('address1', TextType::class, [
                 'label' => "Adresse",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('address2', TextType::class, [
                 'label' => "Complément d'addresse",
                 'required' => false,
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('zipCode', TextType::class, [
                 'label' => "Code Postal",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('city', TextType::class, [
                 'label' => "Ville",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('phone', TextType::class, [
                 'label' => "Téléphone",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-2"
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => "Email",
                 'required' => false,
                 'attr' => [
-                    'class' => "form-control",
+                    'class' => "form-control mb-2",
                     'placeholder' => "Si le patient en a une"
                 ]
             ])
@@ -102,7 +102,7 @@ class PatientType extends AbstractType
                 },
                 'label' => "Médecin traitant",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mb-3"
                 ]
 
             ])
@@ -117,7 +117,7 @@ class PatientType extends AbstractType
                 'multiple' => true,
                 'label' => "Infirmier(e)s",
                 'attr' => [
-                    'class' => "form-control"
+                    'class' => "form-control mt-2 js-select"
                 ]
             ]);
     }

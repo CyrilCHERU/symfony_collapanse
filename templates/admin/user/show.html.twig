@@ -32,15 +32,11 @@
 									{{ user.firstName }}</p>
 							</div>
 						</div>
-
-
 					</div>
-
 				</div>
 				<div class="col">
 					<div class="row">
 						<h2>Coordonnées</h2>
-
 					</div>
 					<div class="row">
 						<div class="col-2">
@@ -54,7 +50,6 @@
 							<p>{{ user.zipCode }}</p>
 							<p>{{ user.city }}</p>
 						</div>
-
 					</div>
 				</div>
 				<div class="row">
@@ -63,40 +58,19 @@
 				<div class="col">
 					<p>
 						<i class="fas fa-phone"></i>
-						{{ user.phone }}</p>
+						{{ user.phone | splitPhone}}</p>
 					<p>
 						<i class="fas fa-at"></i>
 						{{ user.email }}</p>
 				</div>
 			</div>
-
-			<div class="col-5">
+			<div class="col-4">
 				<div class="text-center mb-4">
 					<div class="row">
-						<h2>Médécin Traitant</h2>
-					</div>
-					<div class="col"></div>
-				</div>
-				<div class="text-center mb-4">
-					<div class="row">
-						<h2>Paramédicaux</h2>
-					</div>
-					<div class="col"></div>
-				</div>
-				<div class="text-center mb-4">
-					<div class="row">
-						<h2>Soins et suivi</h2>
+						<h2>Profession</h2>
 					</div>
 					<div class="col">
-						<p>
-							<a href="#">Soin 1 : xx/xx/2019</a>
-						</p>
-						<p>
-							<a href="#">Soin 1 : xx/xx/2019</a>
-						</p>
-						<p>
-							<a href="#">Soin 1 : xx/xx/2019</a>
-						</p>
+						{{ user.job.title }}
 					</div>
 				</div>
 			</div>
