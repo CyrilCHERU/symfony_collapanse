@@ -31,6 +31,12 @@ class Image
      */
     private $url;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="images")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $intervention;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +74,18 @@ class Image
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getIntervention(): ?Intervention
+    {
+        return $this->intervention;
+    }
+
+    public function setIntervention(?Intervention $intervention): self
+    {
+        $this->intervention = $intervention;
 
         return $this;
     }
