@@ -38,6 +38,11 @@ class Care
      */
     private $interventions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="cares")
+     */
+    private $patient;
+
     public function __construct()
     {
         $this->interventions = new ArrayCollection();
@@ -111,6 +116,18 @@ class Care
                 $intervention->setCare(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
 
         return $this;
     }

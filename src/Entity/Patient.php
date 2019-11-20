@@ -79,9 +79,15 @@ class Patient
      */
     private $nurses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Care", mappedBy="patient")
+     */
+    private $cares;
+
     public function __construct()
     {
         $this->nurses = new ArrayCollection();
+        $this->cares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,6 +248,37 @@ class Patient
     {
         if ($this->nurses->contains($nurse)) {
             $this->nurses->removeElement($nurse);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Care[]
+     */
+    public function getCares(): Collection
+    {
+        return $this->cares;
+    }
+
+    public function addCare(Care $care): self
+    {
+        if (!$this->cares->contains($care)) {
+            $this->cares[] = $care;
+            $care->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCare(Care $care): self
+    {
+        if ($this->cares->contains($care)) {
+            $this->cares->removeElement($care);
+            // set the owning side to null (unless already changed)
+            if ($care->getPatient() === $this) {
+                $care->setPatient(null);
+            }
         }
 
         return $this;
