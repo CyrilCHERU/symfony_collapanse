@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de tous les patients en base de données
+{% endblock %}
+
+{% block body %}
+<h1>Liste des patients inscrits en BDD</h1>
+
+<table class="table table-stripped">
+	<thead class="thead-dark">
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Nom</th>
+			<th scope="col">Prénom</th>
+			<th scope="col">Date de Naissance</th>
+			<th scope="col">Téléphone</th>
+			<th scope="col">Adresse</th>
+			<th scope="col">Médecin</th>
+			<th scope="col">Infirmier(e)s</th>
+			<th>Modification/Suppression</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for patient in patients %}
+			<tr>
+				<th scope="row">{{ patient.id }}</th>
+				<td>
+					<a href="{{ path('patient_show', {'id': patient.id}) }}">{{ patient.lastName | upper }}</a>
+				</td>
+				<td>{{ patient.firstName }}</td>
+				<td class="text-center">{{ patient.birthDate | date("d/m/Y") }}</td>
+				<td>{{ patient.phone | splitPhone}}</td>
+				<td>{{ patient.address1 }}
+					{{ patient.address2 }}
+					{{ patient.zipCode }}
+					{{ patient.city }}
+				</td>
+				<td>Dr
+					{{ patient.doctor.lastName }}
+					{{ patient.doctor.firstName }}</td>
+				<td>
+					{% for nurse in patient.nurses %}
+						<p>{{ nurse.lastName}}
+							{{ nurse.firstName}}</p>
+					{% endfor %}
+				</td>
+
+				<td class="text-center">
+					<button class="btn btn-info">
+						<a href="{{ path("patient_edit", {'id' : patient.id}) }}">
+							<i class="far fa-edit text-light"></i>
+						</a>
+					</button>
+					<button class="btn btn-danger">
+						<a href="#">
+							<i class="fas fa-trash text-light"></i>
+						</a>
+					</button>
+				</td>
+			</tr>
+		</td>
+	</tbody>
+</tr>{% endfor %}</tbody></table>{% endblock %}

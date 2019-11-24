@@ -1,0 +1,160 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Fiche Patient
+{% endblock %}
+
+{% block body %}
+	<div class="m-4">
+		<div class="row m-4">
+			<h1>Voici les informations du patient stockées en BDD</h1>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="col-7">
+					<div class="row">
+						<h2>Civilités</h2>
+						<hr>
+
+					</div>
+
+					<div class="col">
+						<div class="row">
+							<div class="col-7">
+								<img class="rounded-circle" src="http://avatars.io/twitter/{{ patient.firstName }}/medium" alt="avatar">
+							</div>
+							<div class="col-5">
+								<p>Sexe :
+									{{ patient.gender }}</p>
+								<p>Nom :
+									{{ patient.lastName }}</p>
+								<p>Prénom :
+									{{ patient.firstName }}</p>
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+				<div class="col">
+					<div class="row">
+						<h2>Coordonnées</h2>
+
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<p>Adresse :</p>
+							<p>Code Postal :</p>
+							<p>Ville :</p>
+						</div>
+						<div class="col-4">
+							<p>{{ patient.address1 }}</p>
+							<p>{{ patient.address2 }}</p>
+							<p>{{ patient.zipCode }}</p>
+							<p>{{ patient.city }}</p>
+						</div>
+
+					</div>
+				</div>
+				<div class="row">
+					<h3>Contact</h3>
+				</div>
+				<div class="col">
+					<p>
+						<i class="fas fa-phone"></i>
+						{{ patient.phone | splitPhone }}</p>
+					<p>
+						<i class="fas fa-at"></i>
+						{{ patient.email }}</p>
+				</div>
+			</div>
+
+			<div class="col-5">
+				<div class="text-center mb-4">
+					<div class="row">
+						<h2>Médécin Traitant</h2>
+					</div>
+					<div class="col">
+						Dr
+						{{ patient.doctor.lastName}}
+						{{ patient.doctor.firstName}}
+					</div>
+				</div>
+				<div class="text-center mb-4">
+					<div class="row">
+						<h2>Paramédicaux</h2>
+					</div>
+					<div class="col">
+						{% for nurse in patient.nurses %}
+							<p>{{ nurse.lastName}}
+								{{ nurse.firstName}}</p>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="text-center mb-4">
+					<div class="row">
+						<h2>Soins et suivi</h2>
+					</div>
+					<div class="col">
+						{% for care in cares %}
+							<p>
+								<a href="#">Soin
+									{{ loop.index }}
+									:
+									{{ care.createdAt | date("d/m/Y") }}</a>
+							</p>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-8 text-right">
+				<a href="{{ path("patient_index") }}" class="btn btn-info">
+					<i class="fas fa-backward"></i>
+				</a>
+				<button class="btn btn-warning">
+					<a href="{{ path("patient_edit", {'id' : patient.id}) }}">
+						<i class="far fa-edit text-light"></i>
+					</a>
+				</button>
+				<button class="btn btn-danger">
+					<a href="#">
+						<i class="fas fa-trash text-light"></i>
+					</a>
+				</button>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<table class="table table-stripped">
+				<thead class="thead-dark">
+					<th scope="col">#</th>
+					<th scope="col">Débuté le</th>
+					<th scope="col">Clôturé le</th>
+					<th scope="col">Plaie</th>
+					<th scope="col">Intervention(s)</th>
+				</thead>
+				<tbody>
+					{% for care in cares %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ care.createdAt | date("d/m/Y") }}</td>
+							<td>{{ care.endedAt | date("d/m/Y") }}</td>
+							<td>{{ care.woundType }}</td>
+							<td>
+								{% for inter in interventions %}
+									<a href="">{{ inter.date  | date("d/m/Y") }}</a>
+									<br>
+								{% endfor %}
+							</td>
+
+						</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+{% endblock %}

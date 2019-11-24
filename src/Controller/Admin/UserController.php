@@ -14,19 +14,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="admin_user_index")
+     * @Route("/", name="user_index")
      */
     public function index(UserRepository $userRepository)
     {
         $users = $userRepository->findAll();
 
-        return $this->render('admin/user/index.html.twig', [
+        return $this->render('user/index.html.twig', [
             'users' => $users
         ]);
     }
 
     /**
-     * @Route("/admin/user/create", name="admin_user_create")
+     * @Route("/user/create", name="user_create")
      */
     public function create(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
@@ -46,30 +46,30 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute("admin_user_show", [
+            return $this->redirectToRoute("user_show", [
                 'id' => $user->getId()
             ]);
         }
 
-        return $this->render('admin/user/create.html.twig', [
+        return $this->render('user/create.html.twig', [
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/admin/user/{id}", name="admin_user_show")
+     * @Route("/user/{id}", name="user_show")
      */
     public function show(User $user)
     {
 
 
-        return $this->render('admin/user/show.html.twig', [
+        return $this->render('user/show.html.twig', [
             'user' => $user
         ]);
     }
 
     /**
-     * @Route("/admin/user/{id}/edit", name="admin_user_edit")
+     * @Route("/user/{id}/edit", name="user_edit")
      */
     public function edit(User $user, Request $request, EntityManagerInterface $em)
     {
@@ -82,12 +82,12 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute("admin/user/show.html.twig", [
+            return $this->redirectToRoute("user/show.html.twig", [
                 'id' => $user->getId()
             ]);
         }
 
-        return $this->render('admin/user/edit.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'form' => $form->createView()
         ]);
     }

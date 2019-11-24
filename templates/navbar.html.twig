@@ -9,16 +9,16 @@
 			{% if is_granted('ROLE_ADMIN') %}
 
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path("admin_user_index") }}">Liste des utilisateurs</a>
+					<a class="nav-link" href="{{ path("user_index") }}">Liste des utilisateurs</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path("admin_patient_index") }}">Liste des patients</a>
+					<a class="nav-link" href="{{ path("patient_index") }}">Liste des patients</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path("admin_user_create") }}">Créer un utilisateur</a>
+					<a class="nav-link" href="{{ path("user_create") }}">Créer un utilisateur</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path("admin_patient_create") }}">Créer un patient</a>
+					<a class="nav-link" href="{{ path("patient_create") }}">Créer un patient</a>
 				</li>
 			</ul>
 

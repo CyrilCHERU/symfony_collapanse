@@ -2,8 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Intervention;
 use App\Entity\Patient;
 use App\Form\PatientType;
+use App\Repository\CareRepository;
+use App\Repository\ImageRepository;
+use App\Repository\InterventionRepository;
 use App\Repository\PatientRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PatientController extends AbstractController
 {
     /**
-     * @Route("/admin/patients", name="admin_patient_index")
+     * @Route("/patients", name="patient_index")
      */
     public function index(PatientRepository $patientRepository)
     {
@@ -22,13 +26,13 @@ class PatientController extends AbstractController
 
         // dd($patients);
 
-        return $this->render('admin/patient/index.html.twig', [
+        return $this->render('patient/index.html.twig', [
             'patients' => $patients
         ]);
     }
 
     /**
-     * @Route("/admin/patient/{id}/edit", name="admin_patient_edit", requirements={"id": "\d+"})
+     * @Route("/patient/{id}/edit", name="patient_edit", requirements={"id": "\d+"})
      *
      * @return void
      */
@@ -48,19 +52,19 @@ class PatientController extends AbstractController
                 "Le Patient a bien été modifié dans la base de données"
             );
 
-            return $this->redirectToRoute("admin_patient_show", [
+            return $this->redirectToRoute("patient_show", [
                 "id" => $patient->getId()
             ]);
         }
 
-        return $this->render('admin/patient/edit.html.twig', [
+        return $this->render('patient/edit.html.twig', [
             'form' => $form->createView(),
             'patient' => $patient
         ]);
     }
 
     /**
-     * @Route("/admin/patient/nouveau", name="admin_patient_create")
+     * @Route("/patient/nouveau", name="patient_create")
      *
      * @return void
      */
@@ -92,12 +96,12 @@ class PatientController extends AbstractController
                 "Le nouveau patient, <strong>{$patient->getLastName()} {$patient->getFirstName()} a bien été enregistré !"
             );
 
-            return $this->redirectToRoute("admin_patient_show", [
+            return $this->redirectToRoute("patient_show", [
                 'id' => $patient->getId()
             ]);
         }
 
-        return $this->render('admin/patient/create.html.twig', [
+        return $this->render('patient/create.html.twig', [
             'form' => $form->createView(),
             'nurses' => $nurses,
             'doctors' => $doctors
@@ -105,15 +109,23 @@ class PatientController extends AbstractController
     }
 
     /**
-     * @Route("/admin/patient/{id}", name="admin_patient_show")
+     * @Route("/patient/{id}", name="patient_show")
      *
      * @return void
      */
-    public function show(Patient $patient)
+    public function show(Patient $patient, CareRepository $careRepository, InterventionRepository $inters, ImageRepository $imageRepository)
     {
 
-        return $this->render("admin/patient/show.html.twig", [
-            'patient' => $patient
+        $cares = $careRepository->findBy(['patient' => $patient->getId()]);
+        $interventions = $inters->findBy(['care' => $cares]);
+
+
+        return $this->render("patient/show.html.twig", [
+            'patient' => $patient,
+            'cares' => $cares,
+            'interventions' => $interventions,
+
+
         ]);
     }
 }
