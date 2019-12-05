@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="#"><img src="./img/logo.jpg" width="30" height="30" class="rounded d-inline-block align-top" alt="pansement">Collapanse</a>
+	<a class="navbar-brand" href="#"><img src="/img/logo.jpg" width="30" height="30" class="rounded d-inline-block align-top mr-2" alt="pansement">Collapanse</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -7,25 +7,45 @@
 	<div class="collapse navbar-collapse" id="navbarColor03">
 		<ul class="navbar-nav mr-auto">
 			{% if is_granted('ROLE_ADMIN') %}
-
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path("user_index") }}">Liste des utilisateurs</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="userDropdownLink">Utilisateurs</a>
+					<div class="dropdown-menu dropdown-menu-center" aria-labelledby="userDropdownLink">
+						<a href="{{ path("user_index") }}" class="dropdown-item">Liste des utilisateurs</a>
+						<a href="{{ path("user_create") }}" class="dropdown-item">Nouvel utilisateur</a>
+					</div>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path("patient_index") }}">Liste des patients</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="patientDropdownLink">Patients</a>
+					<div class="dropdown-menu dropdown-menu-center" aria-labelledby="patientDropdownLink">
+						<a href="{{ path("patient_index") }}" class="dropdown-item">Liste des patients</a>
+						<a href="{{ path("patient_create") }}" class="dropdown-item">Nouveau patient</a>
+					</div>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path("user_create") }}">Créer un utilisateur</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="cares">Soins</a>
+					<div class="dropdown-menu dropdown-menu-center" aria-labelledby="cares">
+						<a href="{{ path("care_index") }}" class="dropdown-item">Liste des soins</a>
+						<a href="{{ path("care_create") }}" class="dropdown-item">Nouveau soin</a>
+					</div>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path("patient_create") }}">Créer un patient</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" id="interventions">Interventions</a>
+					<div class="dropdown-menu dropdown-menu-center" arialabelledby="interventions">
+						<a href="{{ path("intervention_index") }}" class="dropdown-item">Liste des interventions</a>
+						<a href="{{ path("intervention_create") }}" class="dropdown-item">Nouvelle intervention</a>
+					</div>
 				</li>
 			</ul>
 
 			<form class="form-inline my-2 my-lg-0">
 				<input class="form-control mr-sm-2" type="text" placeholder="Search">
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher un patient</button>
 			</form>
 		{% endif %}
+		<ul class="text-right">
+			<li class="nav-item">
+				<a href="{{ path('security_login') }}" class="nav-link">Connexion</a>
+			</li>
+		</ul>
 	</div>
 </nav>

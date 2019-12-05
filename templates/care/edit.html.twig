@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Edition du soin
+{% endblock %}
+
+{% block body %}
+	<div class="row m-5">
+		<div class="col">
+			<h1>Edition du soin :
+				{{ care.woundType }}</h1>
+
+		</div>
+	</div>
+	<div class="row  text-center">
+		<div class="col">
+			<h2>Patient :
+				{{ patient }}</h2>
+		</div>
+	</div>
+
+	<div class="row justify-content-center">
+		<div class="col-6">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<button class="btn btn-success">Modifier</button>
+			{{ form_end(form) }}
+		</div>
+
+	</div>
+{% endblock %}

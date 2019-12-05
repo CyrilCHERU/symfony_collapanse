@@ -1,20 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
-{% block title %}Hello InterventionController!{% endblock %}
+{% block title %}
+	Liste de tous les interventions
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="row">
+		<h1>Liste de tous les interventions</h1>
+	</div>
+	<div class="row m-4">
+		<table class="table table-stripped">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col" width="5%">#</th>
+					<th scope="col-3" width="8%">Date</th>
+					<th scope="col" width="20%">Soin</th>
+					<th scope="col" width="50%">Commentaire</th>
+					<th scope="col" width="20%" class="text-center">Image(s)</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for inter in interventions %}
+					<tr>
+						<td>{{ inter.id }}</td>
+						<td>{{ inter.date | date("d-m-Y") }}</td>
+						<td>
+							<a href="{{ path("intervention_show", {'id': inter.id}) }}">
+								{{ inter.care.woundType }}
+							</a>
+						</td>
+						<td>{{ inter.comment }}</td>
+						<td class="text-center">
+							{{ inter.images | length }}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/work/api-symfony/api/src/Controller/InterventionController.php'|file_link(0) }}">src/Controller/InterventionController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/work/api-symfony/api/templates/intervention/index.html.twig'|file_link(0) }}">templates/intervention/index.html.twig</a></code></li>
-    </ul>
-</div>
+	</div>
 {% endblock %}

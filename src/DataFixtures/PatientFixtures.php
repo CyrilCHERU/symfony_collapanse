@@ -52,16 +52,24 @@ class PatientFixtures extends BaseFixtures implements DependentFixtureInterface
                 $phone = str_replace("+33", "0", $phone);
             }
             $phone = str_replace(' ', "", $phone);
+            $gender = $this->faker->randomElement($genders, 1);
+
+            $patient->setGender($gender);
+
+            if ($gender == "Homme") {
+                $gender = "male";
+            } elseif ($gender == "Femme") {
+                $gender = "female";
+            }
 
             $patient->setEmail("patient$e@gmail.com")
                 ->setBirthDate($birthDate)
-                ->setFirstName($this->faker->firstName())
+                ->setFirstName($this->faker->firstName($gender))
                 ->setLastName($this->faker->lastName())
                 ->setPhone($phone)
                 ->setAddress1($this->faker->streetAddress)
                 ->setZipCode('02' . $this->faker->numberBetween(000, 990))
                 ->setCity(strtoupper($this->faker->city))
-                ->setGender($this->faker->randomElement($genders, 1))
                 ->setDoctor($this->getRandomReference(User::class));
 
             for ($i = 0; $i < mt_rand(1, 3); $i++) {

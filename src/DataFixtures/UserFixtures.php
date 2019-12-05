@@ -39,7 +39,7 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
                 "Homme",
                 "Femme"
             ];
-            $firstName = $this->faker->firstName();
+
             $lastName = strtoupper($this->faker->lastName());
 
             $phone = $this->faker->phoneNumber;
@@ -53,6 +53,16 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
             }
             $phone = str_replace(' ', "", $phone);
 
+            $gender = $this->faker->randomElement($genders, 1);
+
+            $user->setGender($gender);
+
+            if ($gender == "Homme") {
+                $gender = "male";
+            } elseif ($gender == "Femme") {
+                $gender = "female";
+            }
+            $firstName = $this->faker->firstName($gender);
 
             $user->setEmail("user$e@gmail.com")
                 ->setPassword($this->encoder->encodePassword($user, 'password'))
@@ -63,7 +73,6 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setAddress1($this->faker->streetAddress)
                 ->setZipCode('02' . $this->faker->numberBetween(000, 990))
                 ->setCity(strtoupper($this->faker->city))
-                ->setGender($this->faker->randomElement($genders, 1))
                 ->setJob($this->getRandomReference(Job::class))
                 ->setSlug($lastName . '-' . $firstName);
         });

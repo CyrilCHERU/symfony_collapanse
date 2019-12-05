@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Intervention;
 use App\Entity\Patient;
 use App\Form\PatientType;
 use App\Repository\CareRepository;
@@ -24,8 +23,6 @@ class PatientController extends AbstractController
     {
         $patients = $patientRepository->findAll();
 
-        // dd($patients);
-
         return $this->render('patient/index.html.twig', [
             'patients' => $patients
         ]);
@@ -39,7 +36,6 @@ class PatientController extends AbstractController
     public function edit(Patient $patient, Request $request, EntityManagerInterface $em)
     {
 
-        // dd($patient);
         $form = $this->createForm(PatientType::class, $patient);
 
         $form->handleRequest($request);
@@ -64,7 +60,7 @@ class PatientController extends AbstractController
     }
 
     /**
-     * @Route("/patient/nouveau", name="patient_create")
+     * @Route("/patients/nouveau", name="patient_create")
      *
      * @return void
      */
@@ -109,7 +105,7 @@ class PatientController extends AbstractController
     }
 
     /**
-     * @Route("/patient/{id}", name="patient_show")
+     * @Route("/patients/{id}", name="patient_show")
      *
      * @return void
      */
@@ -117,15 +113,27 @@ class PatientController extends AbstractController
     {
 
         $cares = $careRepository->findBy(['patient' => $patient->getId()]);
-        $interventions = $inters->findBy(['care' => $cares]);
-
 
         return $this->render("patient/show.html.twig", [
             'patient' => $patient,
             'cares' => $cares,
-            'interventions' => $interventions,
-
-
         ]);
+    }
+
+    /**
+     * @Route("/patients/{id}/delete", name="patient_delete")
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function delete(int $id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $patient = $entityManager->getRepository(Patient::class)->find($id);
+
+        $entityManager->remove($patient);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("patient_index");
     }
 }

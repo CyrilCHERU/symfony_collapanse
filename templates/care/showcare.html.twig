@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Soin :
+	{{ care.woundType }}
+{% endblock %}
+
+{% block body %}
+	<div class="row m-4">
+		<h1>
+			{{ care.woundType }}
+			chez :
+			{{ patient }}</h1>
+	</h1>
+</div>
+<div class="row mr-5 text-right">
+	<div class="col">
+		<button class="btn btn-info mr-4">
+			<a href="{{ path("intervention_care_create", {'id': care.id}) }}" class="nav-link text-light">
+				Ajouter une intervention
+			</a>
+		</button>
+		<button class="btn btn-success mr-4">
+			<a href="{{ path('care_followedcares', {'id': patientId }) }}" class="text-light nav-link">Retour soins du patient</a>
+		</button>
+		<button class="btn btn-primary mr-4">
+			<a href="{{ path('patient_index') }}" class="nav-link text-light">Retour liste des patients</a>
+		</button>
+
+	</div>
+</div>
+<div class="row m-5">
+	<table class="table table-stripped">
+		<thead class="thead-dark">
+			<th scope="col">#</th>
+			<th scope="col">Débuté le</th>
+			<th scope="col">Clôturé le</th>
+			<th scope="col">Nombre d'intervention(s)</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ care.id }}</td>
+				<td>{{ care.createdAt | date("d/m/Y") }}</td>
+				<td>{{ care.endedAt | date("d/m/Y") }}</td>
+				<td>{{ care.interventions | length }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="row m-5">
+	{% for inter in care.interventions %}
+		<div class="col-6">
+			<h2>Intervention du :
+				{{ inter.date  | date("d/m/Y") }}</h2>
+			<p>Commentaire :</p>
+			<br>
+			{{ inter.comment }}
+			<br>
+			<h3 class="mt-2 mb-3">Nombre d'image(s) :
+				{{ inter.images | length }}</3>
+			<div class="row justify-content-center mt-3">
+				<div class="col-2">
+					<button class="btn btn-info">
+						<a href="{{ path("intervention_show", {'id': inter.id}) }}" class="text-light">
+							<i class="far fa-eye text-light"></i>
+							Voir
+						</a>
+					</button>
+				</div>
+				<div class="col-2">
+					<button class="btn btn-warning">
+						<i class="fas fa-edit text-light"></i>
+						Editer
+					</button>
+				</div>
+				<div class="col">
+					<button class="btn btn-danger">
+						<a href="{{ path("intervention_show", {'id': inter.id}) }}" class="text-light">
+							<i class="fas fa-trash  text-light"></i>
+							Supprimer
+						</a>
+					</button>
+				</div>
+			</div>
+		</div>
+		<a href=""></a>
+		<br>
+	{% endfor %}
+
+</div>
+<div class="row">
+	<div class="col"></div>
+	<div class="col"></div>
+</div>{% endblock %}

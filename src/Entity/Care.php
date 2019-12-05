@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+use Doctrine\ORM\Mapping\OrderBy;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CareRepository")
+ * @ApiResource(
+ *  normalizationContext={"groups":{"cares:read"}}
+ * )
  */
 class Care
 {
@@ -15,31 +22,38 @@ class Care
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"cares:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"cares:read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"cares:read"})
      */
     private $endedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"cares:read"})
      */
     private $woundType;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Intervention", mappedBy="care", orphanRemoval=true)
+     * @ORM\OrderBy({"date"="DESC"})
+     * @Groups({"cares:read"})
      */
     private $interventions;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="cares")
+     * 
      */
     private $patient;
 

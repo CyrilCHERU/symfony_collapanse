@@ -17,12 +17,49 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
+        api:
+            pattern: ^/api
+            # anonymous: lazy
+            stateless: true
+            # authentification par credentials
+            # json_login:
+            #     check_path: api_security_login
+            #     username_path: email
+            #     password_path: password
+
+            # authentification par JWT
+            json_login:
+                check_path: api_security_login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+            logout:
+                path: api_security_logout
+                success_handler: App\Security\ApiLogoutHandler
+
+            # Si authentification par JWT
+            guard:
+               authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator         
+
         main:
             anonymous: true
             logout: ~
             form_login:
                 login_path: security_login
                 check_path: security_login
+            json_login:
+                check_path: api_security_login
+                username_path: email
+                password_path: password
+
+            logout:
+                path: security_logout
+                success_handler: App\Security\ApiLogoutHandler
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -33,5 +70,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST, PUT] }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/api, roles: ROLE_ADMIN }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }

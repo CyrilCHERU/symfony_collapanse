@@ -1,0 +1,75 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Soins et Suivi de "Nom du patient"
+{% endblock %}
+
+{% block body %}
+	<div class="row m-5">
+		<div class="col">
+			<h1>Soins et suivi chez :
+				{{ patient.fullName }}</h1>
+		</div>
+		<div class="col">
+			<button class="btn btn-info">
+				<a href="{{ path("care_patient_create", {'id': patient.id }) }}" class="nav-link text-light">Ajouter un soin</a>
+			</button>
+		</div>
+	</div>
+
+
+	<div class="row m-5">
+		<table class="table table-stripped">
+			<thead class="thead-dark">
+				<th scope="col">#</th>
+				<th scope="col">Plaie</th>
+				<th scope="col">Débuté le</th>
+				<th scope="col">Clôturé le</th>
+				<th scope="col">Intervention(s)</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for care in cares %}
+					<tr>
+
+						<td>{{ loop.index }}</td>
+						<td>
+							<a href="{{ path('care_show', {'id': care.id}) }}">{{ care.woundType }}</a>
+						</td>
+						<td>{{ care.createdAt | date("d/m/Y") }}</td>
+						<td>
+							{% if care.endedAt %}
+								{{ care.endedAt | date("d/m/Y") }}
+
+							{% endif %}
+						</td>
+						<td>
+							{% for inter in care.interventions %}
+								<a href="">{{ inter.date  | date("d/m/Y") }}</a>
+								<br>
+							{% endfor %}
+						</td>
+						<td>
+							<button class="btn btn-info">
+								<a href="{{ path('care_show', {'id': care.id}) }}">
+									<i class="far fa-eye text-light"></i>
+								</a>
+							</button>
+							<button class="btn btn-warning">
+								<a href="{{ path('care_edit', {'id' : care.id}) }}">
+									<i class="fas fa-edit text-light"></i>
+								</a>
+							</button>
+							<button class="btn btn-danger">
+								<a href="{{ path('care_delete', {'id' : care.id}) }}">
+									<i class="fas fa-trash text-light"></i>
+								</a>
+							</button>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+
+		</table>
+	</div>
+{% endblock %}

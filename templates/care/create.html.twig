@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Ajout d'un Soin
+{% endblock %}
+
+{% block body %}
+	<div class="row m-4">
+		<h1>Mise ne place d'un nouveau soin pour :
+			{% if patient %}
+				{{ patient.fullName }}
+			{% endif %}
+		</h1>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-5">
+				<div class="form-group">
+					{{ form_start(form) }}
+					{{ form_widget(form) }}
+					<button type="submit" class="btn btn-success mt-4">Ajouter</button>
+					{{ form_end(form) }}
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+$('.js-select').select2();
+});
+	</script>
+{% endblock %}

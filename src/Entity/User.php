@@ -4,14 +4,20 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("email")
+ * @ApiResource(normalizationContext={"groups":{"users:read"}})
  */
 class User implements UserInterface
 {
@@ -19,72 +25,115 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"users:read", "users:login"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Email(message = "Cet email '{{ value }}' n'est pas un email valide.")
+     * @Groups({"users:read", "users:login"})
+     * 
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"users:login"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Length(
+     *  min = 8, 
+     *  minMessage = "Votre mot de passe doit comporter au minimum {{ limit }} caractères.")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=5)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
      */
     private $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Length(min = 3, minMessage = "Ce champs doit comporter au minimum {{ limit }} caractères.")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Length(min = 3, minMessage = "Ce champs doit comporter au minimum {{ limit }} caractères.")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 10,
+     *      exactMessage = "Le numéro de téléphone ne doit comporter que {{ limit }} caractères.")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=9)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Length(
+     *      min = 9,
+     *      max = 9,
+     *      exactMessage = "Le numéro ADELI ne doit comporter que {{ limit }} caractères.")
      */
     private $adeli;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
      */
     private $address1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users:read"})
      */
     private $address2;
 
     /**
      * @ORM\Column(type="string", length=5)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 5,
+     *      exactMessage = "Le code postal ne doit comporter que {{ limit }} caractères.")
      */
     private $zipCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users:read"})
+     * @Assert\NotBlank(message="Ce champ est requis !")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users:read"})
      */
     private $slug;
 
@@ -99,7 +148,9 @@ class User implements UserInterface
     private $careGiver;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="user")
+     * @Assert\NotBlank(message="Ce champ est requis !")
+     * @Groups({"users:read"})
      */
     private $job;
 
@@ -123,7 +174,7 @@ class User implements UserInterface
     {
         if (empty($this->slug)) {
             $slugify = new Slugify;
-            $this->slug = $slugify->Slugify($this->lastName . $this->firstName);
+            $this->slug = $slugify->Slugify(strtoupper($this->lastName) . $this->firstName);
         }
     }
 
@@ -396,6 +447,12 @@ class User implements UserInterface
         return $this;
     }
 
+
+    /**
+     * @Groups({"users:login"})
+     *
+     * @return void
+     */
     public function getFullName()
     {
         return $this->getLastName() . " " . $this->getFirstName();

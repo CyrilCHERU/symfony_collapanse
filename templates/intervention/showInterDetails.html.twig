@@ -1,0 +1,77 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Détails d'une intervention
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row mt-5 mb-5">
+			<h1>Détails d'une intervention sur un soin de :
+				{{ patient }}</h1>
+		</div>
+
+
+		<div class="row m-5">
+			<table class="table table-stripped">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col" width="5%">#</th>
+						<th scope="col" width="8%">Date</th>
+						<th scope="col" width="50%">Commentaire</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							{{ intervention.id }}
+						</td>
+						<td>
+							{{ intervention.date | date("d-m-Y") }}
+						</td>
+						<td>
+							{{ intervention.comment }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row text-center-right mb-4">
+			<button class="btn btn-warning mr-4">
+				<a href="{{ path("intervention_edit", {'id': intervention.id}) }}" class="nav-link text-light">Modifier</a>
+			</button>
+			<p>ou</p>
+			<button class="btn btn-danger ml-4 mr-4">
+				<a href="" class="nav-link text-light">Supprimer</a>
+			</button>
+			<p>ce commentaire</p>
+		</div>
+		{% if intervention.images | length > 0 %}
+			<h2 class="thead-dark">Image(s) :</h2>
+			<div class="row m-5 justify-content-arround">
+				{% for image in intervention.images %}
+					<div class="col mb-3">
+						<div class="card" style="width: 18rem;">
+							<div class="card-title p-3">
+								<h5 class="card-title">
+									<strong>Date :</strong>
+									{{ image.date | date("d-m-Y") }}</h5>
+							</div>
+							<img src=".{{ image.url }}" class="card-img-top" alt="...">
+							<div class="card-body">
+								<p class="card-text">ID :
+									{{ image.id }}
+								</p>
+								<p>Légende :
+									{{ image.caption }}
+								</p>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+
+	</div>
+
+{% endblock %}

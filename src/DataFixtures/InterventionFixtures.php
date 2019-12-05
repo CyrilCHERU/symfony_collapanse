@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Care;
+use App\Entity\Image;
 use App\Entity\Intervention;
 use App\DataFixtures\BaseFixtures;
 use App\DataFixtures\CareFixtures;
+use App\DataFixtures\ImageFixtures;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 

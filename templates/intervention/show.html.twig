@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Soin et ses interventions
+{% endblock %}
+
+{% block body %}
+	<h1>Soin et ses interventions afférentes</h1>
+	<div class="row mt-4">
+		<table class="table table-stripped">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Soin</th>
+					<th scope="col">Intervention(s)</th>
+					<th scope="col">Date</th>
+					<th scope="col">Commentaire</th>
+					<th scope="col">Image(s)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>680</td>
+					<td>ulcere talon</td>
+					{% for inter in interventions %}
+						<td>{{ inter.date | date("d/m/Y") }}</td>
+						<td>{{ inter.comment }}</td>
+						{% for image in inter.images %}
+							<td>{{ inter.image }}</td>
+						{% endfor %}
+
+					{% endfor %}
+				</tr>
+			</tbody>
+		</table>
+		<div class="row m-4">
+			<div class="col">
+				<div class="row">
+					<div class="col-1">#</div>
+					<div class="col-3">Soin</div>
+					<div class="col-8">Intervention(s)</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4"></div>
+			<div class="col-2">Date</div>
+			<div class="col-6">Commentaire</div>
+			<div class="col-2">Image(s)</div>
+		</div>
+	</div>
+</div>{% endblock %}

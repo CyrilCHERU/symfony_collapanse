@@ -32,13 +32,15 @@ class ImageFixtures extends BaseFixtures implements DependentFixtureInterface
 
     protected function loadData(ObjectManager $manager)
     {
-        $this->makeMany(Image::class, 3, function (Image $image, $e) {
+        $this->makeMany(Image::class, 1000, function (Image $image, $e) {
+
+            $url = ["image1", "image2", "image3", "image4", "image5", "image6", "image7", "image8", "image9", "image10"];
 
             $image->setDate($this->faker->dateTimeBetween('- 10 years', 'now'))
                 ->setCaption($this->faker->word(5))
-                ->setUrl("http://localhost:8000/img/image_$e");
+                ->setUrl("./img/plaies/" . $this->faker->randomElement($url, 1) . ".jpg");
 
-            for ($i = 0; $i < mt_rand(1, 3); $i++) {
+            for ($i = 0; $i < 2; $i++) {
 
                 $image->setIntervention($this->getRandomReference(Intervention::class));
             }

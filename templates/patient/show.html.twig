@@ -94,10 +94,12 @@
 				</div>
 				<div class="text-center mb-4">
 					<div class="row">
-						<h2>Soins et suivi</h2>
+						<h2>
+							<a href="{{ path('care_followedcares', {'id': patient.id}) }}">Soins et suivi</a>
+						</h2>
 					</div>
 					<div class="col">
-						{% for care in cares %}
+						{% for care in patient.cares %}
 							<p>
 								<a href="#">Soin
 									{{ loop.index }}
@@ -105,6 +107,12 @@
 									{{ care.createdAt | date("d/m/Y") }}</a>
 							</p>
 						{% endfor %}
+					</div>
+					<div class="row ml-3">
+						<a href="{{ path("care_patient_create", {'id': patient.id }) }}" class="btn btn-success">
+							<i class="fas fa-plus">
+								Ajouter un soin</i>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -120,41 +128,12 @@
 					</a>
 				</button>
 				<button class="btn btn-danger">
-					<a href="#">
+					<a href="{{ path("patient_delete", {'id': patient.id}) }}">
 						<i class="fas fa-trash text-light"></i>
 					</a>
 				</button>
 			</div>
 		</div>
-		<div class="row mt-4">
-			<table class="table table-stripped">
-				<thead class="thead-dark">
-					<th scope="col">#</th>
-					<th scope="col">Débuté le</th>
-					<th scope="col">Clôturé le</th>
-					<th scope="col">Plaie</th>
-					<th scope="col">Intervention(s)</th>
-				</thead>
-				<tbody>
-					{% for care in cares %}
-						<tr>
-							<td>{{ loop.index }}</td>
-							<td>{{ care.createdAt | date("d/m/Y") }}</td>
-							<td>{{ care.endedAt | date("d/m/Y") }}</td>
-							<td>{{ care.woundType }}</td>
-							<td>
-								{% for inter in interventions %}
-									<a href="">{{ inter.date  | date("d/m/Y") }}</a>
-									<br>
-								{% endfor %}
-							</td>
 
-						</tr>
-					{% endfor %}
-
-				</tbody>
-			</table>
-
-		</div>
 	</div>
 {% endblock %}

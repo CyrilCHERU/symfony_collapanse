@@ -49,16 +49,17 @@
 										<i class="far fa-edit text-light"></i>
 									</a>
 								</button>
-								<button class="btn btn-danger">
-									<a href="#">
-										<i class="fas fa-trash text-light"></i>
-									</a>
-								</button>
+								<button
+									class="btn btn-danger">
+									{# <a href="{{ path("user_delete", {'id': u.id}) }}"> #}
+									<i class="fas fa-trash text-light"></i>
+									{# </a> #}
+								</td>
 							</td>
 						</tr>
-					{% endfor %}
+					</button>
 				</tbody>
-			</table>
-		</div>
-	</div>
-{% endblock %}
+			</td>
+		</tr>
+	{% endfor %}
+</tbody></table></div></div>{% endblock %}

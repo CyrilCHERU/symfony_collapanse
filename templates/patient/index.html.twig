@@ -44,15 +44,19 @@
 							{{ nurse.firstName}}</p>
 					{% endfor %}
 				</td>
-
 				<td class="text-center">
 					<button class="btn btn-info">
+						<a href="{{ path('patient_show', {'id': patient.id}) }}">
+							<i class="far fa-edit text-light"></i>
+						</a>
+					</button>
+					<button class="btn btn-warning">
 						<a href="{{ path("patient_edit", {'id' : patient.id}) }}">
 							<i class="far fa-edit text-light"></i>
 						</a>
 					</button>
 					<button class="btn btn-danger">
-						<a href="#">
+						<a href="{{ path("patient_delete", {'id': patient.id}) }}">
 							<i class="fas fa-trash text-light"></i>
 						</a>
 					</button>

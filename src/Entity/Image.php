@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ApiResource(normalizationContext={"groups":{"images:read"}})
  */
 class Image
 {
@@ -13,21 +16,25 @@ class Image
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"images:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"images:read"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"images:read"})
      */
     private $caption;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"images:read"})
      */
     private $url;
 
