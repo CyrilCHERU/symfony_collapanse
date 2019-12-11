@@ -56,7 +56,7 @@ class BaseFixtures extends Fixture
      * @param callable $factory
      * @return void
      */
-    protected function makeMany(string $entityClassName, int $limit, callable $factory)
+    protected function makeMany(string $entityClassName, int $limit, callable $factory, $customReference = null)
     {
         // creer des entités
         for ($e = 0; $e < $limit; $e++) {
@@ -67,6 +67,9 @@ class BaseFixtures extends Fixture
 
             $this->manager->persist($entity);
 
+            if ($customReference) {
+                $this->setReference($customReference . '_' . $e, $entity);
+            }
             $this->setReference($entityClassName . '_' . $e, $entity);
         }
     }

@@ -34,7 +34,8 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
 
     protected function loadData(ObjectManager $manager)
     {
-        $this->makeMany(User::class, 20, function (User $user, $e) {
+
+        $this->makeMany(User::class, 6, function (User $user, $e) {
             $genders = [
                 "Homme",
                 "Femme"
@@ -64,7 +65,7 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
             }
             $firstName = $this->faker->firstName($gender);
 
-            $user->setEmail("user$e@gmail.com")
+            $user->setEmail("docteur$e@gmail.com")
                 ->setPassword($this->encoder->encodePassword($user, 'password'))
                 ->setFirstName($firstName)
                 ->setLastName($lastName)
@@ -73,8 +74,51 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setAddress1($this->faker->streetAddress)
                 ->setZipCode('02' . $this->faker->numberBetween(000, 990))
                 ->setCity(strtoupper($this->faker->city))
-                ->setJob($this->getRandomReference(Job::class))
+                ->setJob($this->getReference("Docteur"))
                 ->setSlug($lastName . '-' . $firstName);
-        });
+        }, "DOCTEUR");
+
+        $this->makeMany(User::class, 14, function (User $user, $e) {
+            $genders = [
+                "Homme",
+                "Femme"
+            ];
+
+            $lastName = strtoupper($this->faker->lastName());
+
+            $phone = $this->faker->phoneNumber;
+            if (stristr($phone, "+33") === false || stristr($phone, "+33 (0)") === false) {
+                $phone = $phone;
+            }
+            if (stristr($phone, "+33 (0)")) {
+                $phone = str_replace("+33 (0)", "0", $phone);
+            } elseif (stristr($phone, "+33")) {
+                $phone = str_replace("+33", "0", $phone);
+            }
+            $phone = str_replace(' ', "", $phone);
+
+            $gender = $this->faker->randomElement($genders, 1);
+
+            $user->setGender($gender);
+
+            if ($gender == "Homme") {
+                $gender = "male";
+            } elseif ($gender == "Femme") {
+                $gender = "female";
+            }
+            $firstName = $this->faker->firstName($gender);
+
+            $user->setEmail("ide$e@gmail.com")
+                ->setPassword($this->encoder->encodePassword($user, 'password'))
+                ->setFirstName($firstName)
+                ->setLastName($lastName)
+                ->setPhone($phone)
+                ->setAdeli("02" . $this->faker->numberBetween(0000000, 9999999))
+                ->setAddress1($this->faker->streetAddress)
+                ->setZipCode('02' . $this->faker->numberBetween(000, 990))
+                ->setCity(strtoupper($this->faker->city))
+                ->setJob($this->getReference("Infirmier(e)"))
+                ->setSlug($lastName . '-' . $firstName);
+        }, "INFIRMIER");
     }
 }

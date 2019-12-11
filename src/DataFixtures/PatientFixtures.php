@@ -70,11 +70,12 @@ class PatientFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setAddress1($this->faker->streetAddress)
                 ->setZipCode('02' . $this->faker->numberBetween(000, 990))
                 ->setCity(strtoupper($this->faker->city))
-                ->setDoctor($this->getRandomReference(User::class));
+                ->setDoctor($this->getRandomReference("DOCTEUR"));
 
             for ($i = 0; $i < mt_rand(1, 3); $i++) {
 
-                $patient->addNurse($this->getRandomReference(User::class));
+                $nurse = $this->getRandomReference("INFIRMIER");
+                $patient->addNurse($nurse);
             }
         });
     }

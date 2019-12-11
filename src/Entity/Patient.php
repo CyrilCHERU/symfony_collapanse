@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,7 +24,7 @@ class Patient
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"patients:read"})
+     * @Groups({"patients:read", "cares:read", "interventions:read"})
      */
     private $id;
 
@@ -131,6 +132,7 @@ class Patient
      * @ORM\OneToMany(targetEntity="App\Entity\Care", mappedBy="patient")
      * @Groups({"patients:read"})
      * @ORM\OrderBy({"createdAt"="DESC"})
+     * @ApiSubresource
      * 
      */
     private $cares;
@@ -327,6 +329,8 @@ class Patient
     }
 
     /**
+     * @Groups({"patients:read"})
+     * 
      * @return Collection|Care[]
      */
     public function getCares(): Collection
@@ -369,8 +373,13 @@ class Patient
         return $this;
     }
 
+    /**
+     * @Groups({"patients:read", "cares:read", "interventions:read"})
+     *
+     * @return void
+     */
     public function getFullName()
     {
-        return $this->getLastName() . " " . $this->getFirstName();
+        return strtoupper($this->getLastName()) . " " . $this->getFirstName();
     }
 }

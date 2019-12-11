@@ -9,3 +9,7 @@ api_platform:
         pagination:
             enabled: false
             items_per_page: 10
+
+    eager_loading:
+        force_eager: true
+        max_joins: 256

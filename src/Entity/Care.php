@@ -22,37 +22,38 @@ class Care
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"cares:read"})
+     * @Groups({"cares:read", "patients:read", "interventions:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"cares:read"})
+     * @Groups({"cares:read", "patients:read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"cares:read"})
+     * @Groups({"cares:read", "patients:read"})
      */
     private $endedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"cares:read"})
+     * @Groups({"cares:read", "patients:read", "interventions:read"})
      */
     private $woundType;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Intervention", mappedBy="care", orphanRemoval=true)
      * @ORM\OrderBy({"date"="DESC"})
-     * @Groups({"cares:read"})
+     * @Groups({"cares:read", "patients:read"})
      */
     private $interventions;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="cares")
+     * @Groups({"cares:read", "interventions:read"})
      * 
      */
     private $patient;

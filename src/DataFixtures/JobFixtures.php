@@ -14,9 +14,16 @@ class JobFixtures extends BaseFixtures
             "Infirmier(e)"
         ];
 
-        $this->makeMany(Job::class, 2, function (Job $job) use ($jobs) {
+        foreach ($jobs as $title) {
+            $job = new Job;
 
-            $job->setTitle($this->faker->randomElement($jobs, 1));
-        });
+            $job->setTitle($title);
+
+            $manager->persist($job);
+
+            $manager->flush();
+
+            $this->addReference($title, $job);
+        }
     }
 }

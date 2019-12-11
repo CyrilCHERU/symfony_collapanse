@@ -20,7 +20,7 @@ security:
         
         api:
             pattern: ^/api
-            # anonymous: lazy
+            anonymous: true
             stateless: true
             # authentification par credentials
             # json_login:
@@ -70,9 +70,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST, PUT] }
+        # - { path: ^/api/contact, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: POST }
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: POST }
+        - { path: ^/api/jobs, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: ROLE_USER }
-        - { path: ^/api, roles: ROLE_ADMIN }
+        - { path: ^/api/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET }
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }

@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JobRepository")
  * @ApiResource(
- *  normalizationContext={"groups":{"job:read"}}
+ *  normalizationContext={"groups":{"jobs:read"}}
  * )
  */
 class Job
@@ -18,13 +18,13 @@ class Job
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"job:read"})
+     * @Groups({"jobs:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"job:read"})
+     * @Groups({"jobs:read"})
      */
     private $title;
 

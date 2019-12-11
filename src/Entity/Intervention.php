@@ -11,7 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
- * @ApiResource(normalizationContext={"groups":{"interventions:read"}})
+ * @ApiResource(
+ *  normalizationContext={"groups":{"interventions:read"}},
+ *  denormalizationContext={"groups":{"interventions:write"}})
  */
 class Intervention
 {
@@ -19,32 +21,33 @@ class Intervention
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"interventions:read"})
+     * @Groups({"interventions:read", "cares:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"interventions:read"})
+     * @Groups({"interventions:read", "cares:read"})
      * 
      */
     private $date;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"interventions:read"})
+     * @Groups({"interventions:read", "cares:read"})
      */
     private $comment;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="intervention", orphanRemoval=true)
-     * @Groups({"interventions:read"})
+     * @Groups({"interventions:read", "cares:read"})
      */
     private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Care", inversedBy="interventions")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"interventions:read"})
      */
     private $care;
 
@@ -113,6 +116,11 @@ class Intervention
         return $this;
     }
 
+    /**
+     * 
+     *
+     * @return Care|null
+     */
     public function getCare(): ?Care
     {
         return $this->care;

@@ -16,31 +16,32 @@ class Image
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"images:read"})
+     * @Groups({"images:read", "interventions:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"images:read"})
+     * @Groups({"images:read", "interventions:read"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"images:read"})
+     * @Groups({"images:read", "interventions:read"})
      */
     private $caption;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"images:read"})
+     * @Groups({"images:read", "interventions:read"})
      */
     private $url;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"interventions:write"})
      */
     private $intervention;
 

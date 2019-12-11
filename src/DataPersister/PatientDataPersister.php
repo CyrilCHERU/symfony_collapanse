@@ -20,7 +20,7 @@ class PatientDataPersister implements ContextAwareDataPersisterInterface
 
     public function supports($data, array $context = []): bool
     {
-        //return $data instanceof Patient && $data->getId() == null;
+        return $data instanceof Patient && $data->getId() == null;
     }
 
     /**
@@ -33,8 +33,14 @@ class PatientDataPersister implements ContextAwareDataPersisterInterface
     public function persist($data, array $context = [])
     {
         // Liaison du Patient au User connecté
-        $data->setDoctor($this->security->getUser());
-        //$data->addNurse($this->security->getUser());
+        $user = $this->security->getUser();
+        if ($user->getJobTitle() == "Docteur") {
+            $data->setDoctor($user);
+        } else {
+            $data->addNurse($this->security->getUser());
+        };
+
+
         // enregistrement
         $this->em->persist($data);
         $this->em->flush();

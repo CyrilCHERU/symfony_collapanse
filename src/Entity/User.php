@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -25,7 +24,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users:read", "users:login"})
+     * @Groups({"users:read", "users:login", "patients:read"})
      */
     private $id;
 
@@ -64,7 +63,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"users:read"})
+     * @Groups({"users:read", "patients:read"})
      * @Assert\NotBlank(message="Ce champ est requis !")
      * @Assert\Length(min = 3, minMessage = "Ce champs doit comporter au minimum {{ limit }} caractères.")
      */
@@ -72,7 +71,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"users:read"})
+     * @Groups({"users:read", "patients:read"})
      * @Assert\NotBlank(message="Ce champ est requis !")
      * @Assert\Length(min = 3, minMessage = "Ce champs doit comporter au minimum {{ limit }} caractères.")
      */
@@ -150,7 +149,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="user")
      * @Assert\NotBlank(message="Ce champ est requis !")
-     * @Groups({"users:read"})
+     * @Groups({"users:read", "jobs:read"})
      */
     private $job;
 
@@ -449,12 +448,22 @@ class User implements UserInterface
 
 
     /**
-     * @Groups({"users:login"})
+     * @Groups({"users:login", "patients:read"})
      *
      * @return void
      */
     public function getFullName()
     {
         return $this->getLastName() . " " . $this->getFirstName();
+    }
+
+    /**
+     * @Groups({"users:read"})
+     *
+     * @return void
+     */
+    public function getJobTitle()
+    {
+        return $this->getJob()->getTitle();
     }
 }
