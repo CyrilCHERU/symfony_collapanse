@@ -66,6 +66,11 @@
 									{{ image.caption }}
 								</p>
 							</div>
+							<button class="btn btn-danger">
+								<a href="{{ path("image_delete", {'id' : image.id}) }}" class="text-light">
+									<i class="fas fa-trash"></i>
+								</a>
+							</button>
 						</div>
 					</div>
 				{% endfor %}

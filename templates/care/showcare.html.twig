@@ -69,13 +69,15 @@
 				</div>
 				<div class="col-2">
 					<button class="btn btn-warning">
-						<i class="fas fa-edit text-light"></i>
-						Editer
+						<a href="{{ path("intervention_edit", {'id': inter.id}) }}" class="text-light">
+							<i class="fas fa-edit text-light"></i>
+							Editer
+						</a>
 					</button>
 				</div>
 				<div class="col">
 					<button class="btn btn-danger">
-						<a href="{{ path("intervention_show", {'id': inter.id}) }}" class="text-light">
+						<a href="{{ path("intervention_delete", {'id': inter.id}) }}" class="text-light">
 							<i class="fas fa-trash  text-light"></i>
 							Supprimer
 						</a>

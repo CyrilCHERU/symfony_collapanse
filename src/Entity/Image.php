@@ -41,7 +41,7 @@ class Image
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Intervention", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"interventions:write"})
+     * @Groups({"images:read", "interventions:write"})
      */
     private $intervention;
 

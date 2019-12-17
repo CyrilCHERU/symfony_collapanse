@@ -8,6 +8,7 @@
         "api-platform/api-pack": "^1.2",
         "cocur/slugify": "^3.2",
         "fzaninotto/faker": "^1.9",
+        "knplabs/knp-paginator-bundle": "^5.0",
         "lexik/jwt-authentication-bundle": "^2.6",
         "nelmio/api-doc-bundle": "^3.5",
         "nelmio/cors-bundle": "^2.0",

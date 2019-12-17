@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/images")
+ * 
  */
 class ImageController extends AbstractController
 {
     /**
-     * @Route("/", name="image_index", methods={"GET"})
+     * @Route("/images/", name="image_index", methods={"GET"})
      */
     public function index(ImageRepository $imageRepository): Response
     {
@@ -26,12 +26,12 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="image_new", methods={"GET","POST"})
+     * @Route("/images/new", name="image_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $image = new Image();
-        $form = $this->createForm(Image1Type::class, $image);
+        $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,7 +49,7 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="image_show", methods={"GET"})
+     * @Route("/images/{id}", name="image_show", methods={"GET"})
      */
     public function show(Image $image): Response
     {
@@ -59,7 +59,7 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="image_edit", methods={"GET","POST"})
+     * @Route("/images/{id}/edit", name="image_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Image $image): Response
     {
@@ -79,15 +79,16 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="image_delete", methods={"DELETE"})
+     * @Route("/images/{id}", name="image_delete")
      */
-    public function delete(Request $request, Image $image): Response
+    public function delete(int $id)
     {
-        if ($this->isCsrfTokenValid('delete' . $image->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($image);
-            $entityManager->flush();
-        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $image = $entityManager->getRepository(Image::class)->find($id);
+
+        $entityManager->remove($image);
+        $entityManager->flush();
 
         return $this->redirectToRoute('image_index');
     }

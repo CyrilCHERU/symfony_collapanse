@@ -8,6 +8,7 @@ use App\Entity\Patient;
 use App\Repository\CareRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use DateTime;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,14 +18,18 @@ class CareController extends AbstractController
     /**
      * @Route("/cares", name="care_index")
      */
-    public function index(CareRepository $careRepository)
+    public function index(CareRepository $careRepository, Request $request, PaginatorInterface $paginator)
     {
         $cares = $careRepository->findAll();
 
-        // dd($cares);
+        $pagination = $paginator->paginate(
+            $careRepository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            9 /*limit per page*/
+        );
 
         return $this->render('care/index.html.twig', [
-            'cares' => $cares,
+            'cares' => $pagination,
         ]);
     }
 
@@ -54,8 +59,8 @@ class CareController extends AbstractController
             $em->persist($care);
             $em->flush();
 
-            return $this->redirectToRoute("patient_show", [
-                'id' => $care->getPatient()->getId()
+            return $this->redirectToRoute("care_show", [
+                'id' => $care->getId()
             ]);
         }
 

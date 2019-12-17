@@ -2,29 +2,36 @@
 
 namespace App\Controller\Admin;
 
+
 use App\Entity\Patient;
 use App\Form\PatientType;
 use App\Repository\CareRepository;
-use App\Repository\ImageRepository;
-use App\Repository\InterventionRepository;
-use App\Repository\PatientRepository;
 use App\Repository\UserRepository;
+use App\Repository\ImageRepository;
+use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\InterventionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PatientController extends AbstractController
 {
     /**
      * @Route("/patients", name="patient_index")
      */
-    public function index(PatientRepository $patientRepository)
+    public function index(PatientRepository $patientRepository, PaginatorInterface $paginator, Request $request)
     {
         $patients = $patientRepository->findAll();
+        $pagination = $paginator->paginate(
+            $patientRepository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            7 /*limit per page*/
+        );
 
         return $this->render('patient/index.html.twig', [
-            'patients' => $patients
+            'patients' => $pagination
         ]);
     }
 

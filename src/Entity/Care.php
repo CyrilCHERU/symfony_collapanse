@@ -22,7 +22,7 @@ class Care
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"cares:read", "patients:read", "interventions:read"})
+     * @Groups({"cares:read", "patients:read", "interventions:read", "images:read"})
      */
     private $id;
 

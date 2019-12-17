@@ -11,6 +11,7 @@ use App\Repository\CareRepository;
 use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,15 +54,18 @@ class InterventionController extends AbstractController
      * @param InterventionRepository $interventions
      * @return void
      */
-    public function index(InterventionRepository $interventionRepository, CareRepository $careRepository)
+    public function index(InterventionRepository $interventionRepository, Request $request, PaginatorInterface $paginator)
     {
         $interventions = $interventionRepository->findAll();
 
-        //dd($interventions);
+        $pagination = $paginator->paginate(
+            $interventionRepository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            6 /*limit per page*/
+        );
 
         return $this->render("intervention/index.html.twig", [
-            'interventions' => $interventions,
-            // 'cares' => $cares
+            'interventions' => $pagination
         ]);
     }
 
@@ -114,7 +118,8 @@ class InterventionController extends AbstractController
         }
 
         return $this->render("intervention/new_inter.html.twig", [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'inter' => ""
         ]);
     }
 
@@ -142,7 +147,32 @@ class InterventionController extends AbstractController
         }
 
         return $this->render("intervention/new_inter.html.twig", [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'inter' => $inter
+        ]);
+    }
+
+
+    /**
+     * @Route("/intervention/{id}/delete", name="intervention_delete")
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function delete(int $id, InterventionRepository $interventionRepository)
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $inter = $entityManager->getRepository(Intervention::class)->find($id);
+
+
+        $careId = $inter->getCare()->getId();
+
+        $entityManager->remove($inter);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("care_show", [
+            'id' => $careId
         ]);
     }
 }

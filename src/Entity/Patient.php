@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
@@ -117,6 +118,7 @@ class Patient
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="patients")
+     * 
      * @Groups({"patients:read"})
      * @Assert\NotBlank(message="Ce champ est requis.")
      */

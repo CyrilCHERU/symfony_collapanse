@@ -9,11 +9,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
+// denormalizationContext={"groups":{"interventions:write"}})
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
  * @ApiResource(
- *  normalizationContext={"groups":{"interventions:read"}},
- *  denormalizationContext={"groups":{"interventions:write"}})
+ *  normalizationContext={"groups":{"interventions:read"}})
+ *  
  */
 class Intervention
 {
@@ -27,20 +30,20 @@ class Intervention
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"interventions:read", "cares:read"})
+     * @Groups({"interventions:read", "cares:read", "interventions:write"})
      * 
      */
     private $date;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"interventions:read", "cares:read"})
+     * @Groups({"interventions:read", "cares:read", "interventions:write"})
      */
     private $comment;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="intervention", orphanRemoval=true)
-     * @Groups({"interventions:read", "cares:read"})
+     * @Groups({"interventions:read", "cares:read", "interventions:write"})
      */
     private $images;
 

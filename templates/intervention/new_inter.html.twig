@@ -1,19 +1,35 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-	Créations d'une nouvelle intervention
+	{% if inter %}
+		Modification de l'intervention
+		{{ inter.id }}
+	{% else %}
+		Créations d'une nouvelle intervention
+	{% endif %}
+
 {% endblock %}
 
 {% block body %}
 	<div class="container">
 		<div class="row">
-			<h1>Création d'une nouvelle intervention</h1>
+			{% if inter %}
+				<h1>Modification de l'intervention</h1>
+			{% else %}
+				<h1>Création d'une nouvelle intervention</h1>
+			{% endif %}
 		</div>
 		<div class="row">
 			<div class="col-8">
 				{{ form_start(form) }}
 				{{ form_widget(form) }}
-				<button type="submit" class="btn btn-success">Créer</button>
+
+				{% if inter %}
+					<button type="submit" class="btn btn-success">Modifier</button>
+				{% else %}
+					<button type="submit" class="btn btn-success">Créer</button>
+				{% endif %}
+
 				{{ form_end(form) }}
 			</div>
 

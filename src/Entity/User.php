@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+
+
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -138,6 +140,8 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Patient", mappedBy="doctor")
+     * 
+     * 
      */
     private $patients;
 
@@ -149,7 +153,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="user")
      * @Assert\NotBlank(message="Ce champ est requis !")
-     * @Groups({"users:read", "jobs:read"})
+     * @Groups({"users:read", "jobs:read", "users:login"})
      */
     private $job;
 
@@ -376,6 +380,7 @@ class User implements UserInterface
     }
 
     /**
+     * 
      * @return Collection|Patient[]
      */
     public function getPatients(): Collection
@@ -458,7 +463,7 @@ class User implements UserInterface
     }
 
     /**
-     * @Groups({"users:read"})
+     * @Groups({ "users:login", "users:read"})
      *
      * @return void
      */
