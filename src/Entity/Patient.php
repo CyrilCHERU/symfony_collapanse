@@ -16,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\PatientRepository")
  * @ORM\HasLifecycleCallbacks
  * @ApiResource(
- *  normalizationContext={"groups":{"patients:read"}}
+ *  normalizationContext={"groups":{"patients:read"}},
+ *  attributes={"order"={"lastName": "ASC"}}
  * )
  */
 class Patient
@@ -58,7 +59,7 @@ class Patient
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"patients:read"})
+     * @Groups({"patients:read", "cares:read"})
      * @Assert\NotBlank(message="Ce champ est requis.")
      * @Assert\Date
      */
@@ -144,6 +145,12 @@ class Patient
      * @Groups({"patients:read"})
      */
     private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"patients:read", "cares:read"})
+     */
+    private $avatar;
 
     public function __construct()
     {
@@ -383,5 +390,17 @@ class Patient
     public function getFullName()
     {
         return strtoupper($this->getLastName()) . " " . $this->getFirstName();
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 }

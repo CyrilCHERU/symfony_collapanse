@@ -23,18 +23,18 @@ class ContactMeNotificationSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function sendNotification(ContactMailEvent $event)
+    public function sendNotificationEmail(ContactMailEvent $event)
     {
         $contact = $event->getContact();
 
         $email = new Email();
-        $email->from($contact['email'])
+        $email->from($contact->getEmail())
             ->to('admin@admin.com')
             ->subject('Collapanse, quelqu un tente de prendre contact via le site')
             ->html("
-            <h2>Une personne du nom de : {$contact['name']}, prend contact avec vous via votre site Collapanse.</h2
+            <h2>Une personne du nom de : {$contact->getName()}, prend contact avec vous via votre site Collapanse.</h2
             <strong>Voici son message :</strong>
-            <p>{$contact['message']}</p>
+            <p>{$contact->getMessage()}</p>
             ");
 
         $this->mailer->send($email);

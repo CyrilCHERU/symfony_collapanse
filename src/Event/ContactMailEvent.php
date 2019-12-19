@@ -2,6 +2,7 @@
 
 namespace App\Event;
 
+use App\Entity\Contact;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class ContactMailEvent extends Event
@@ -9,7 +10,7 @@ class ContactMailEvent extends Event
 
     protected $contact;
 
-    public function __construct($contact)
+    public function __construct(Contact $contact)
     {
         $this->contact = $contact;
     }

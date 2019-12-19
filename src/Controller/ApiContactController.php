@@ -3,21 +3,24 @@
 namespace App\Controller;
 
 use App\Event\ContactMailEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiContactController extends AbstractController
 {
     /**
      * @Route("/api/contact", name="api_contact", methods={"POST"})
      */
-    public function contact($data, SerializerInterface $serializer, EventDispatcherInterface $ed)
+    public function contact(Request $request, SerializerInterface $serializer, EventDispatcherInterface $ed)
     {
-        $contact = $serializer->deserialize($data, , json);
-        
+        $data = $request->getContent();
+
+        $contact = $serializer->deserialize($data, 'App\Entity\Contact', 'json');
+
         $contactMailEvent = new ContactMailEvent($contact);
 
         $ed->dispatch($contactMailEvent, 'site.collapanse.contact');

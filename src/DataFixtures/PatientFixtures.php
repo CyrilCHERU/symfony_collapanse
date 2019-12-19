@@ -17,7 +17,8 @@ class PatientFixtures extends BaseFixtures implements DependentFixtureInterface
     protected $encoder;
 
     public function __construct()
-    { }
+    {
+    }
 
     /**
      * This method must return an array of fixtures classes
@@ -62,6 +63,11 @@ class PatientFixtures extends BaseFixtures implements DependentFixtureInterface
                 $gender = "female";
             }
 
+            $picture = 'http://randomuser.me/api/portraits/';
+            $pictureId = $this->faker->numberBetween(1, 99) . '.jpg';
+            if ($gender == "male") $picture = $picture . 'men/' . $pictureId;
+            else $picture = $picture . 'women/' . $pictureId;
+
             $patient->setEmail("patient$e@gmail.com")
                 ->setBirthDate($birthDate)
                 ->setFirstName($this->faker->firstName($gender))
@@ -70,7 +76,8 @@ class PatientFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setAddress1($this->faker->streetAddress)
                 ->setZipCode('02' . $this->faker->numberBetween(000, 990))
                 ->setCity(strtoupper($this->faker->city))
-                ->setDoctor($this->getRandomReference("DOCTEUR"));
+                ->setDoctor($this->getRandomReference("DOCTEUR"))
+                ->setAvatar($picture);
 
             for ($i = 0; $i < mt_rand(1, 3); $i++) {
 

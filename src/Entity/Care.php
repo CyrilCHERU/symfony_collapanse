@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,8 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CareRepository")
  * @ApiResource(
- *  normalizationContext={"groups":{"cares:read"}}
+ *  normalizationContext={"groups":{"cares:read"}},
+ *  attributes={"order"={"patient.lastName"}}
  * )
+ * 
  */
 class Care
 {

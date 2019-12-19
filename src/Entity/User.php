@@ -463,7 +463,7 @@ class User implements UserInterface
     }
 
     /**
-     * @Groups({ "users:login", "users:read"})
+     * @Groups({"users:login", "users:read"})
      *
      * @return void
      */

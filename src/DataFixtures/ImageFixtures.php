@@ -15,7 +15,8 @@ class ImageFixtures extends BaseFixtures implements DependentFixtureInterface
 
 
     public function __construct()
-    { }
+    {
+    }
 
     /**
      * This method must return an array of fixtures classes
@@ -32,7 +33,7 @@ class ImageFixtures extends BaseFixtures implements DependentFixtureInterface
 
     protected function loadData(ObjectManager $manager)
     {
-        $this->makeMany(Image::class, 1000, function (Image $image, $e) {
+        $this->makeMany(Image::class, 100, function (Image $image, $e) {
 
             $url = ["image1", "image2", "image3", "image4", "image5", "image6", "image7", "image8", "image9", "image10"];
 
