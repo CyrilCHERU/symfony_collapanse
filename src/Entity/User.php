@@ -58,7 +58,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=5)
-     * @Groups({"users:read"})
+     * @Groups({"users:read", "users:login"})
      * @Assert\NotBlank(message="Ce champ est requis !")
      */
     private $gender;

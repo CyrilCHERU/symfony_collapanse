@@ -24,7 +24,7 @@ class Intervention
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"interventions:read", "cares:read"})
+     * @Groups({"interventions:read", "cares:read", "images:read"})
      */
     private $id;
 
@@ -50,7 +50,7 @@ class Intervention
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Care", inversedBy="interventions")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"interventions:read"})
+     * @Groups({"interventions:read", "images:read"})
      */
     private $care;
 

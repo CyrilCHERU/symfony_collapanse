@@ -40,7 +40,7 @@ class Care
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"cares:read", "patients:read", "interventions:read"})
+     * @Groups({"cares:read", "patients:read", "interventions:read", "images:read"})
      */
     private $woundType;
 
@@ -53,7 +53,7 @@ class Care
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="cares")
-     * @Groups({"cares:read", "interventions:read"})
+     * @Groups({"cares:read", "interventions:read", "images:read"})
      * 
      */
     private $patient;

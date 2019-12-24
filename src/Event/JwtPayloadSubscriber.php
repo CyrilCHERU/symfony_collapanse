@@ -22,6 +22,7 @@ class JwtPayloadSubscriber implements EventSubscriberInterface
         $data['fullName'] = $user->getFullName();
         $data['id'] = $user->getId();
         $data['jobTitle'] = $user->getJob()->getTitle();
+        $data['gender'] = $user->getGender();
 
         $event->setData($data);
     }

@@ -59,7 +59,7 @@ class Patient
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"patients:read", "cares:read"})
+     * @Groups({"patients:read", "cares:read", "interventions:read"})
      * @Assert\NotBlank(message="Ce champ est requis.")
      * @Assert\Date
      */
@@ -148,7 +148,7 @@ class Patient
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"patients:read", "cares:read"})
+     * @Groups({"patients:read", "cares:read", "interventions:read"})
      */
     private $avatar;
 
@@ -383,7 +383,7 @@ class Patient
     }
 
     /**
-     * @Groups({"patients:read", "cares:read", "interventions:read"})
+     * @Groups({"patients:read", "cares:read", "interventions:read", "images:read"})
      *
      * @return void
      */
